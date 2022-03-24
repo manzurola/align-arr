@@ -2,7 +2,7 @@ import { align, cost } from './index';
 import { distance, ratio, similarity } from './scoring';
 
 describe('Use API', () => {
-  test('Align two lists of numbers', () => {
+  xtest('Align two lists of numbers', () => {
     const s = [1, 3, 3];
     const t = [1, 2, 3];
     const alignment = align(s, t);
