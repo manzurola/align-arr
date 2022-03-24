@@ -1,7 +1,7 @@
-export type Aligner<S = any, T = S> = (
+export type Aligner = <S = any, T = S>(
   source: S[],
   target: T[],
-  config?: AlignerConfig<S, T>
+  config?: AlignerConfig<S, T>,
 ) => Alignment<S, T>;
 
 export interface AlignerConfig<S = any, T = S> {
@@ -11,18 +11,21 @@ export interface AlignerConfig<S = any, T = S> {
   equals?: (s: S, t: T) => boolean;
 }
 
-export interface Alignment<S = any, T = S> {
-  edits: Edit<S, T>[];
-  cost: number;
-}
+export type Alignment<S = any, T = S> = Edit<S, T>[];
 
-export interface Edit<S, T = S> {
+// export interface Alignment<S = any, T = S> {
+//   edits: Edit<S, T>[];
+//   cost: number;
+// }
+
+export interface Edit<S = any, T = S> {
   source: Chunk<S>;
   target: Chunk<T>;
   operation: Operation;
+  cost: number;
 }
 
-export interface Chunk<T> {
+export interface Chunk<T = any> {
   position: number;
   data?: T;
 }

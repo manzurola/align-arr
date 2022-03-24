@@ -1,11 +1,6 @@
-import { Aligner, Edit, Operation } from "./types";
+import { Aligner, Edit, Operation } from './types';
 
-interface Cell {
-  cost: number;
-  op?: Operation;
-}
-
-const defaultCost = () => 1;
+const defaultCost = () => 1.0;
 const defaultEquals = (s: unknown, t: unknown) => s === t;
 
 export const levenshtein: Aligner = (
@@ -16,7 +11,7 @@ export const levenshtein: Aligner = (
     insCost = defaultCost,
     subCost = defaultCost,
     equals = defaultEquals,
-  } = {}
+  } = {},
 ) => {
   const sLen = s.length;
   const tLen = t.length;
@@ -24,45 +19,46 @@ export const levenshtein: Aligner = (
 
   for (let i = 0; i < sLen; i++) {
     for (let j = 0; j < tLen; j++) {
-      const sTok = s[i];
-      const tTok = t[j];
-
-      if (equals(sTok, tTok)) {
+      const si = s[i];
+      const ti = t[j];
+      if (equals(si, ti)) {
         matrix[i + 1][j + 1].cost = matrix[i][j].cost;
         matrix[i + 1][j + 1].op = Operation.Equal;
       } else {
-        const costDel = matrix[i][j + 1].cost + delCost(sTok);
-        const costIns = matrix[i + 1][j].cost + insCost(tTok);
-        const costSub = matrix[i][j].cost + subCost(sTok, tTok);
+        const opCostDel = delCost(si);
+        const costDel = matrix[i][j + 1].cost + opCostDel;
+        const opCostIns = insCost(ti);
+        const costIns = matrix[i + 1][j].cost + opCostIns;
+        const opCostSub = subCost(si, ti);
+        const costSub = matrix[i][j].cost + opCostSub;
+        let minCostOpCost = opCostDel;
         let minCost = costDel;
         let minCostOp = Operation.Delete;
         if (costIns < costDel) {
           minCostOp = Operation.Insert;
           minCost = costIns;
+          minCostOpCost = opCostIns;
         } else if (costSub < costDel) {
           minCostOp = Operation.Substitute;
           minCost = costSub;
+          minCostOpCost = opCostSub;
         }
-
         matrix[i + 1][j + 1].op = minCostOp;
         matrix[i + 1][j + 1].cost = minCost;
+        matrix[i + 1][j + 1].opCost = minCostOpCost;
       }
     }
   }
 
-  const edits = backtrack(matrix, s, t);
-  const cost = matrix[sLen][tLen].cost;
-  return {
-    edits,
-    cost,
-  };
+  return backtrack(matrix, s, t);
 };
 
 const initMatrix = (sLen: number, tLen: number): Cell[][] => {
   const matrix: Cell[][] = [...Array(sLen + 1)].map(() =>
     [...Array(tLen + 1)].map(() => ({
       cost: 0.0,
-    }))
+      opCost: 0.0,
+    })),
   );
   // Fill in the edges
   for (let i = 1; i < sLen + 1; i++) {
@@ -76,14 +72,10 @@ const initMatrix = (sLen: number, tLen: number): Cell[][] => {
   return matrix;
 };
 
-const backtrack = (
-  matrix: Cell[][],
-  s: unknown[],
-  t: unknown[]
-): Edit<unknown>[] => {
+const backtrack = (matrix: Cell[][], s: unknown[], t: unknown[]): Edit[] => {
   let i = matrix.length - 1;
   let j = matrix[0].length - 1;
-  const sequence: Edit<unknown>[] = [];
+  const sequence: Edit[] = [];
   // Work backwards from bottom right until we hit top left
   let iPrev = i,
     jPrev = j;
@@ -91,6 +83,9 @@ const backtrack = (
     const op = matrix[i][j].op;
     switch (op) {
       case Operation.Equal:
+        iPrev -= 1;
+        jPrev -= 1;
+        break;
       case Operation.Substitute:
         iPrev -= 1;
         jPrev -= 1;
@@ -104,7 +99,7 @@ const backtrack = (
         jPrev -= 1;
         break;
       default:
-        throw Error("No op found");
+        throw Error('No op found');
     }
     sequence.push({
       operation: op,
@@ -116,6 +111,7 @@ const backtrack = (
         position: jPrev,
         data: t[jPrev],
       },
+      cost: matrix[i][j].opCost,
     });
     i = iPrev;
     j = jPrev;
@@ -123,3 +119,9 @@ const backtrack = (
 
   return sequence.reverse();
 };
+
+interface Cell {
+  cost: number;
+  op?: Operation;
+  opCost: number;
+}
