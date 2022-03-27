@@ -1,5 +1,4 @@
-import { align, cost } from './index';
-import { distance, ratio, similarity } from './scoring';
+import { align, cost, distance, ratio, similarity } from './index';
 
 describe('Use API', () => {
   xtest('Align two lists of numbers', () => {
