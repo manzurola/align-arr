@@ -23,7 +23,7 @@ export const levenshtein: Aligner = (
       const ti = t[j];
       if (equals(si, ti)) {
         matrix[i + 1][j + 1].cost = matrix[i][j].cost;
-        matrix[i + 1][j + 1].op = Operation.Equal;
+        matrix[i + 1][j + 1].op = 'equal';
       } else {
         const opCostDel = delCost(si);
         const costDel = matrix[i][j + 1].cost + opCostDel;
@@ -33,13 +33,13 @@ export const levenshtein: Aligner = (
         const costSub = matrix[i][j].cost + opCostSub;
         let minCostOpCost = opCostDel;
         let minCost = costDel;
-        let minCostOp = Operation.Delete;
+        let minCostOp: Operation = 'delete';
         if (costIns < costDel) {
-          minCostOp = Operation.Insert;
+          minCostOp = 'insert';
           minCost = costIns;
           minCostOpCost = opCostIns;
         } else if (costSub < costDel) {
-          minCostOp = Operation.Substitute;
+          minCostOp = 'substitute';
           minCost = costSub;
           minCostOpCost = opCostSub;
         }
@@ -63,11 +63,11 @@ const initMatrix = (sLen: number, tLen: number): Cell[][] => {
   // Fill in the edges
   for (let i = 1; i < sLen + 1; i++) {
     matrix[i][0].cost = matrix[i - 1][0].cost + 1;
-    matrix[i][0].op = Operation.Delete;
+    matrix[i][0].op = 'delete';
   }
   for (let j = 1; j < tLen + 1; j++) {
     matrix[0][j].cost = matrix[0][j - 1].cost + 1;
-    matrix[0][j].op = Operation.Insert;
+    matrix[0][j].op = 'insert';
   }
   return matrix;
 };
@@ -82,19 +82,19 @@ const backtrack = (matrix: Cell[][], s: unknown[], t: unknown[]): Edit[] => {
   while (i + j != 0) {
     const op = matrix[i][j].op;
     switch (op) {
-      case Operation.Equal:
+      case 'equal':
         iPrev -= 1;
         jPrev -= 1;
         break;
-      case Operation.Substitute:
+      case 'substitute':
         iPrev -= 1;
         jPrev -= 1;
         break;
-      case Operation.Delete:
+      case 'delete':
         iPrev -= 1;
         jPrev = j;
         break;
-      case Operation.Insert:
+      case 'insert':
         iPrev = i;
         jPrev -= 1;
         break;

@@ -4,14 +4,20 @@
     "module": "commonjs",
     "outDir": "./lib",
     "noImplicitAny": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
     "declaration": true,
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
+    "forceConsistentCasingInFileNames": true
   },
   "include": [
     "src"
   ],
-  "exclude": ["node_modules", "lib", "src/*.spec.ts"]
+  "exclude": [
+    "node_modules",
+    "lib",
+    "src/*.spec.ts"
+  ]
 }

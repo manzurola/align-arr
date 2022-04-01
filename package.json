@@ -1,6 +1,6 @@
 {
   "name": "align-arr",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Find the minimal edit path between two generic arrays.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -8,7 +8,13 @@
   "author": "manzurola <guy.manzurola@gmail.com>",
   "license": "MIT",
   "private": false,
-  "keywords": ["alignment", "edit-distance", "levenshtein", "similarity", "diff"],
+  "keywords": [
+    "alignment",
+    "edit-distance",
+    "levenshtein",
+    "similarity",
+    "diff"
+  ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "test": "jest"

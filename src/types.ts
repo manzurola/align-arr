@@ -13,11 +13,6 @@ export interface AlignerConfig<S = any, T = S> {
 
 export type Alignment<S = any, T = S> = Edit<S, T>[];
 
-// export interface Alignment<S = any, T = S> {
-//   edits: Edit<S, T>[];
-//   cost: number;
-// }
-
 export interface Edit<S = any, T = S> {
   source: Chunk<S>;
   target: Chunk<T>;
@@ -30,9 +25,4 @@ export interface Chunk<T = any> {
   data?: T;
 }
 
-export enum Operation {
-  Equal,
-  Insert,
-  Delete,
-  Substitute,
-}
+export type Operation = 'equal' | 'insert' | 'delete' | 'substitute';

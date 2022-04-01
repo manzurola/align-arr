@@ -15,6 +15,6 @@ describe('Use API', () => {
     const s = [1, 3, 3];
     const t = [1, 2, 3];
     const alignment = align(s, t, { subCost: () => 10.0 });
-    console.log(alignment.map((e) => e.operation).filter((e) => e));
+    console.log(alignment.map((e) => e.operation !== 'equal').filter((e) => e));
   });
 });

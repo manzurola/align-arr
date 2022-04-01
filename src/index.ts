@@ -2,13 +2,13 @@ import {
   Aligner,
   AlignerConfig,
   Alignment,
-  Edit,
   Chunk,
+  Edit,
   Operation,
 } from './types';
 
 import { levenshtein as align } from './levenshtein';
-import { cost, ratio, distance, similarity } from './scoring';
+import { cost, distance, ratio, similarity } from './scoring';
 
 export {
   align,

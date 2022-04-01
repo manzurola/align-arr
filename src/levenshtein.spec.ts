@@ -1,4 +1,4 @@
-import { Alignment, Operation } from './types';
+import { Alignment } from './types';
 import { levenshtein } from './levenshtein';
 import { cost } from './scoring';
 
@@ -9,7 +9,7 @@ describe('levenshtein', function () {
     const expected: Alignment = [
       {
         cost: 0,
-        operation: Operation.Equal,
+        operation: 'equal',
         source: {
           position: 0,
           data: 1,
@@ -21,7 +21,7 @@ describe('levenshtein', function () {
       },
       {
         cost: 0,
-        operation: Operation.Equal,
+        operation: 'equal',
         source: {
           position: 1,
           data: 4,
@@ -33,7 +33,7 @@ describe('levenshtein', function () {
       },
       {
         cost: 1,
-        operation: Operation.Substitute,
+        operation: 'substitute',
         source: {
           position: 2,
           data: 5,
