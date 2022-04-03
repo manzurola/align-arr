@@ -1,6 +1,8 @@
 # align-arr
 ### Find the minimal edit path between two generic arrays
 
+![maven](https://github.com/manzurola/align-arr/actions/workflows/node.js.yml/badge.svg)
+
 # Installation
 
 ```
