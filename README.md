@@ -3,7 +3,7 @@
 
 ![maven](https://github.com/manzurola/align-arr/actions/workflows/node.js.yml/badge.svg)
 
-# Installation
+## Installation
 
 ```
 npm i align-arr
@@ -13,7 +13,7 @@ or
 yarn add align-arr
 ```
 
-# Usage
+## Usage
 
 ```ts
 import { align } from 'align-arr';
