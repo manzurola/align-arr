@@ -41,15 +41,15 @@ The `align` function accepts an optional configuration object as the last argume
 We use it to configure the 3 cost functions and the equals method.
 
 ```ts
-const alignmentWithCustomCost = align(s, t, { subCost: () => 10.0 });
+const alignmentWithCustomCost = align(source, target, { subCost: (s, t) => 10.0 });
 ```
 
 Overriding the `equals` method enables us to align arrays of different types.
 
 ```ts
-const s = [1, 3, 3];
-const t = ['1', '2', '3']; // a list of strings
-const alignmentOfDifferentTypes = align(s, t, {
-  equals: (a, b) => a === Number.parseFloat(b),
+const sourceNumbers = [1, 3, 3];
+const targetStrings = ['1', '2', '3']; // a list of strings
+const alignmentOfDifferentTypes = align(sourceNumbers, targetStrings, {
+  equals: (s, t) => s === Number.parseFloat(t),
 });
 ```
