@@ -26,9 +26,9 @@ const target = [1, 2, 3];
 const alignment: Edit<number>[] = align(source, target);
 ```
 
-An alignment is a list of Edits. An Edit references Chunks of source and target, and the Operation that transforms the former to the latter.
+An alignment is a list of Edits. An Edit references a source Chunk and a target Chunk, and the Operation that transforms the former to the latter.
 
-```
+```ts
 const edit = alignment[0];
 console.log(edit.source.position);
 console.log(edit.source.data);
@@ -37,18 +37,19 @@ console.log(edit.target.data);
 console.log(edit.operation);
 ```
 
-We can customize the cost functions as we see fit
+The `align` function accepts an optional configuration object as the last argument.
+We use it to configure the 3 cost functions and the equals method.
 
 ```ts
-const alignment = align(s, t, { subCost: () => 10.0 });
+const alignmentWithCustomCost = align(s, t, { subCost: () => 10.0 });
 ```
 
-And align lists of different types using a custom equals function
+Overriding the `equals` method enables us to align arrays of different types.
 
 ```ts
 const s = [1, 3, 3];
 const t = ['1', '2', '3']; // a list of strings
-const alignment = align(s, t, {
+const alignmentOfDifferentTypes = align(s, t, {
   equals: (a, b) => a === Number.parseFloat(b),
 });
 ```
