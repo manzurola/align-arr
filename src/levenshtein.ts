@@ -1,9 +1,9 @@
-import { Aligner, Edit, Operation } from './types';
+import { AlignerStrategy, Edit, Operation } from './types';
 
 const defaultCost = () => 1.0;
 const defaultEquals = (s: unknown, t: unknown) => s === t;
 
-export const levenshtein: Aligner = (
+export const levenshtein: AlignerStrategy = (
   s,
   t,
   {
@@ -79,24 +79,33 @@ const backtrack = (matrix: Cell[][], s: unknown[], t: unknown[]): Edit[] => {
   // Work backwards from bottom right until we hit top left
   let iPrev = i,
     jPrev = j;
+  let sData, tData;
   while (i + j != 0) {
     const op = matrix[i][j].op;
     switch (op) {
       case 'equal':
         iPrev -= 1;
         jPrev -= 1;
+        sData = s[iPrev];
+        tData = t[jPrev];
         break;
       case 'substitute':
         iPrev -= 1;
         jPrev -= 1;
+        sData = s[iPrev];
+        tData = t[jPrev];
         break;
       case 'delete':
         iPrev -= 1;
         jPrev = j;
+        sData = s[iPrev];
+        tData = undefined;
         break;
       case 'insert':
         iPrev = i;
         jPrev -= 1;
+        sData = undefined;
+        tData = t[jPrev];
         break;
       default:
         throw Error('No op found');
@@ -105,11 +114,11 @@ const backtrack = (matrix: Cell[][], s: unknown[], t: unknown[]): Edit[] => {
       operation: op,
       source: {
         position: iPrev,
-        data: s[iPrev],
+        data: sData,
       },
       target: {
         position: jPrev,
-        data: t[jPrev],
+        data: tData,
       },
       cost: matrix[i][j].opCost,
     });

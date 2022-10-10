@@ -1,17 +1,16 @@
 import {
-  Aligner,
   AlignerConfig,
   Alignment,
   Chunk,
   Edit,
   Operation,
+  Aligner,
 } from './types';
 
-import { levenshtein as align } from './levenshtein';
+import { levenshtein } from './levenshtein';
 import { cost, distance, ratio, similarity } from './scoring';
 
 export {
-  align,
   cost,
   ratio,
   distance,
@@ -22,4 +21,11 @@ export {
   Edit,
   Chunk,
   Operation,
+};
+
+export const createAligner = <S, T>(config?: AlignerConfig): Aligner<S, T> => {
+  return {
+    align: (source, target, extConfig) =>
+      levenshtein(source, target, config ?? extConfig),
+  };
 };
