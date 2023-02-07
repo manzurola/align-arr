@@ -1,7 +1,7 @@
 # Align-arr 🍭
 ![maven](https://github.com/manzurola/align-arr/actions/workflows/node.js.yml/badge.svg)
 
-A Typescript array aligner. Find the minimal edit path between two generic arrays.
+A Typescript array aligner using the Levenshtein Distance algorithm. Find the minimal edit path between two generic arrays.
 
 
 ## Installation
