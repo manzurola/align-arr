@@ -1,9 +1,9 @@
-import { AlignerStrategy, Edit, Operation } from './types';
+import { Aligner, Edit, Operation } from './types';
 
 const defaultCost = () => 1.0;
 const defaultEquals = (s: unknown, t: unknown) => s === t;
 
-export const levenshtein: AlignerStrategy = (
+export const levenshtein: Aligner = (
   s,
   t,
   {

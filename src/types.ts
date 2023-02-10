@@ -1,8 +1,4 @@
-export type Aligner<S = any, T = S> = {
-  align: AlignerStrategy;
-};
-
-export type AlignerStrategy = <S = any, T = S>(
+export type Aligner = <S = any, T = S>(
   source: S[],
   target: T[],
   config?: AlignerConfig<S, T>,
