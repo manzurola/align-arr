@@ -1,36 +1,39 @@
 import { Edit } from './types';
 
 /**
- * The total sum of cost
- *
- * @param alignment
+ * Calculates the total sum of costs for an alignment.
+ * @param alignment Array of edit operations
+ * @returns Total cost (number)
  */
 export const cost = (alignment: Edit[]) => {
   return alignment.map((edit) => edit.cost).reduce((a, b) => a + b);
 };
 
 /**
- * The normalized cost [0, 1], defined as <code>cost(alignment) / alignment.length</code>
- *
- * @param alignment
+ * Calculates the normalized cost [0, 1] for an alignment.
+ * Defined as cost(alignment) / alignment.length.
+ * @param alignment Array of edit operations
+ * @returns Normalized distance (number)
  */
 export const distance = (alignment: Edit[]) => {
   return cost(alignment) / alignment.length;
 };
 
 /**
- * The inverse of {@link #distance()}, defined as <code>1 - distance(alignment)</code>
- *
- * @param alignment
+ * Calculates the similarity score for an alignment.
+ * Defined as 1 - distance(alignment).
+ * @param alignment Array of edit operations
+ * @returns Similarity score (number)
  */
 export const similarity = (alignment: Edit[]) => {
   return 1 - distance(alignment);
 };
 
 /**
- * The normalized cost ratio, defined as <code>(alignment.length - cost(alignment)) / alignment.length</code>
- *
- * @param alignment
+ * Calculates the normalized cost ratio for an alignment.
+ * Defined as (alignment.length - cost(alignment)) / alignment.length.
+ * @param alignment Array of edit operations
+ * @returns Normalized ratio (number)
  */
 export const ratio = (alignment: Edit[]) => {
   return (alignment.length - cost(alignment)) / alignment.length;

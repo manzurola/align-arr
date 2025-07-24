@@ -3,6 +3,17 @@ import { Aligner, Edit, Operation } from './types';
 const defaultCost = () => 1.0;
 const defaultEquals = (s: unknown, t: unknown) => s === t;
 
+/**
+ * Computes the minimal edit path (Levenshtein distance) between two arrays.
+ * Returns an array of edit operations (alignment) to transform source into target.
+ *
+ * @template S - Source element type
+ * @template T - Target element type
+ * @param {S[]} s - Source array
+ * @param {T[]} t - Target array
+ * @param {AlignerConfig<S, T>} [config] - Optional configuration for custom costs and equality
+ * @returns {Edit<S, T>[]} The alignment (edit script)
+ */
 export const levenshtein: Aligner = (
   s,
   t,
@@ -53,6 +64,12 @@ export const levenshtein: Aligner = (
   return backtrack(matrix, s, t);
 };
 
+/**
+ * Initializes the dynamic programming matrix for Levenshtein computation.
+ * @param sLen Source array length
+ * @param tLen Target array length
+ * @returns {Cell[][]} Initialized matrix
+ */
 const initMatrix = (sLen: number, tLen: number): Cell[][] => {
   const matrix: Cell[][] = [...Array(sLen + 1)].map(() =>
     [...Array(tLen + 1)].map(() => ({
@@ -72,6 +89,13 @@ const initMatrix = (sLen: number, tLen: number): Cell[][] => {
   return matrix;
 };
 
+/**
+ * Backtracks through the matrix to construct the alignment (edit script).
+ * @param matrix The DP matrix
+ * @param s Source array
+ * @param t Target array
+ * @returns {Edit[]} The alignment (edit script)
+ */
 const backtrack = (matrix: Cell[][], s: unknown[], t: unknown[]): Edit[] => {
   let i = matrix.length - 1;
   let j = matrix[0].length - 1;
@@ -129,6 +153,10 @@ const backtrack = (matrix: Cell[][], s: unknown[], t: unknown[]): Edit[] => {
   return sequence.reverse();
 };
 
+/**
+ * Internal cell structure for DP matrix.
+ * @private
+ */
 interface Cell {
   cost: number;
   op?: Operation;

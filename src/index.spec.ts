@@ -1,4 +1,4 @@
-import { align, cost, distance, Edit, ratio, similarity } from './index';
+import { align, cost, distance, ratio, similarity } from './index';
 
 describe('Use API', () => {
   test('Align two lists of numbers', () => {
@@ -16,9 +16,9 @@ describe('Use API', () => {
     const t = ['1', '2', '3'];
     const alignment = align(s, t, {
       equals: (a, b) => a === Number.parseFloat(b),
-      insCost: (a) => 1,
-      delCost: (a) => 1,
-      subCost: (a, b) => 10,
+      insCost: () => 1,
+      delCost: () => 1,
+      subCost: () => 10,
     });
     expect(alignment).toEqual([
       {
