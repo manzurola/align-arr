@@ -17,7 +17,7 @@
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "jest",
+    "test": "yarn lint && jest",
     "coverage": "c8 --reporter=lcov --reporter=text yarn test",
     "lint": "eslint 'src/**/*.{ts,js}'",
     "format": "prettier --write 'src/**/*.{ts,js,json,md}'"
