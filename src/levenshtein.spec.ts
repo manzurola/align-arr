@@ -123,7 +123,7 @@ describe('levenshtein', function () {
       const s: any[] = [];
       const t = [1, 2, 3];
       const alignment = levenshtein(s, t);
-      expect(alignment.every(e => e.operation === 'insert')).toBe(true);
+      expect(alignment.every((e) => e.operation === 'insert')).toBe(true);
       expect(alignment.length).toBe(3);
     });
 
@@ -131,7 +131,7 @@ describe('levenshtein', function () {
       const s = [1, 2, 3];
       const t: any[] = [];
       const alignment = levenshtein(s, t);
-      expect(alignment.every(e => e.operation === 'delete')).toBe(true);
+      expect(alignment.every((e) => e.operation === 'delete')).toBe(true);
       expect(alignment.length).toBe(3);
     });
 
@@ -139,7 +139,7 @@ describe('levenshtein', function () {
       const s = [undefined, null];
       const t = [undefined, null];
       const alignment = levenshtein(s, t);
-      expect(alignment.every(e => e.operation === 'equal')).toBe(true);
+      expect(alignment.every((e) => e.operation === 'equal')).toBe(true);
       expect(alignment.length).toBe(2);
     });
 
