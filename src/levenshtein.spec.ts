@@ -110,4 +110,65 @@ describe('levenshtein', function () {
       ]);
     });
   });
+
+  describe('edge cases', () => {
+    it('should align two empty arrays as an empty alignment', () => {
+      const s: any[] = [];
+      const t: any[] = [];
+      const alignment = levenshtein(s, t);
+      expect(alignment).toEqual([]);
+    });
+
+    it('should align empty source to non-empty target as all inserts', () => {
+      const s: any[] = [];
+      const t = [1, 2, 3];
+      const alignment = levenshtein(s, t);
+      expect(alignment.every(e => e.operation === 'insert')).toBe(true);
+      expect(alignment.length).toBe(3);
+    });
+
+    it('should align non-empty source to empty target as all deletes', () => {
+      const s = [1, 2, 3];
+      const t: any[] = [];
+      const alignment = levenshtein(s, t);
+      expect(alignment.every(e => e.operation === 'delete')).toBe(true);
+      expect(alignment.length).toBe(3);
+    });
+
+    it('should handle arrays with undefined and null values', () => {
+      const s = [undefined, null];
+      const t = [undefined, null];
+      const alignment = levenshtein(s, t);
+      expect(alignment.every(e => e.operation === 'equal')).toBe(true);
+      expect(alignment.length).toBe(2);
+    });
+
+    it('should align arrays with one element each (equal)', () => {
+      const s = [42];
+      const t = [42];
+      const alignment = levenshtein(s, t);
+      expect(alignment).toEqual([
+        {
+          operation: 'equal',
+          source: { position: 0, data: 42 },
+          target: { position: 0, data: 42 },
+          cost: 0,
+        },
+      ]);
+    });
+
+    it('should align arrays with one element each (different)', () => {
+      const s = [42];
+      const t = [43];
+      const alignment = levenshtein(s, t);
+      expect(alignment).toEqual([
+        {
+          operation: 'substitute',
+          source: { position: 0, data: 42 },
+          target: { position: 0, data: 43 },
+          cost: 1,
+        },
+      ]);
+    });
+  });
 });
