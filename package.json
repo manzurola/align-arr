@@ -4,7 +4,10 @@
   "description": "Find the minimal edit path between two generic arrays.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "repository": "https://github.com/manzurola/align-arr.git",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manzurola/align-arr.git"
+  },
   "author": "manzurola <guy.manzurola@gmail.com>",
   "license": "MIT",
   "private": false,
